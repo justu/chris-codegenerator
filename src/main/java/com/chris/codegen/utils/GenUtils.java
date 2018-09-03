@@ -137,6 +137,10 @@ public class GenUtils {
             }
         }
     }
+    
+    private static String getModuleName(String tableName) {
+        return tableName.toLowerCase().startsWith("sys_") ? "sys" : "res";
+    }
 
     private static String getModuleName(String tableName) {
         return tableName.toLowerCase().startsWith("sys_") ? "sys" : "res";

@@ -1,3 +1,9 @@
+var $myValidator = null;
+function initValidator() {
+    return {
+
+	};
+}
 $(function () {
     $("#jqGrid").jqGrid({
         url: baseURL + '${moduleName}/${pathName}/list',
