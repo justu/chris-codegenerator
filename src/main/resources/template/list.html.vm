@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<<<<<<< HEAD
 	<title>${comments}</title>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,7 +12,7 @@
 	<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
 	<link rel="stylesheet" href="../../css/main.css">
 	<script src="../../libs/jquery.min.js"></script>
-    <script src="../../plugins/jqmloading/jquery.mloading.js"></script>
+	<script src="../../plugins/jqmloading/jquery.mloading.js"></script>
 	<script src="../../plugins/layer/layer.js"></script>
 	<script src="../../libs/bootstrap.min.js"></script>
 	<script src="../../libs/vue.min.js"></script>
@@ -22,28 +21,6 @@
 	<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
 	<script src="../../js/common.js"></script>
 	<script src="../../js/validator.js"></script>
-=======
-<title>${comments}</title>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-<link rel="stylesheet" href="../../css/bootstrap.min.css">
-<link rel="stylesheet" href="../../css/font-awesome.min.css">
-<link rel="stylesheet" href="../../css/jquery.mloading.css">
-<link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
-<link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
-<link rel="stylesheet" href="../../css/main.css">
-<script src="../../libs/jquery.min.js"></script>
-<script src="../../libs/jquery.mloading.js"></script>
-<script src="../../plugins/layer/layer.js"></script>
-<script src="../../libs/bootstrap.min.js"></script>
-<script src="../../libs/vue.min.js"></script>
-<script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
-<script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
-<script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
-<script src="../../js/common.js"></script>
-<script src="../../js/validator.js"></script>
->>>>>>> 37d320491e08f4006592722d828e7e611720bc48
 </head>
 <body>
 <div id="rrapp" v-cloak>
