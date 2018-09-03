@@ -112,7 +112,7 @@ public class GenUtils {
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("mainPath", mainPath);
         map.put("package", config.getString("package" ));
-        map.put("moduleName", config.getString("moduleName" ));
+        map.put("moduleName", getModuleName(tableEntity.getTableName()));
         map.put("author", config.getString("author" ));
         map.put("email", config.getString("email" ));
         map.put("datetime", createDateTime());
@@ -136,6 +136,10 @@ public class GenUtils {
                 throw new CommonException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
             }
         }
+    }
+    
+    private static String getModuleName(String tableName) {
+        return tableName.toLowerCase().startsWith("sys_") ? "sys" : "res";
     }
 
     private static String createDateTime() {
