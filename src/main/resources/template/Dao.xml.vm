@@ -15,7 +15,12 @@
 	</select>
 
 	<select id="queryList" resultType="${package}.${moduleName}.entity.${className}Entity">
-		select * from ${tableName}
+		select * from ${tableName} where 1=1
+	#foreach($column in $queryColumns)
+		<if test="${column.attrname} != null and ${column.attrname} !='' ">
+				AND ${column.columnName} = #{$column.attrname}
+			</if>
+		#end
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -30,7 +35,12 @@
 	</select>
 	
  	<select id="queryTotal" resultType="int">
-		select count(*) from ${tableName} 
+		select count(*) from ${tableName} where 1=1
+	#foreach($column in $queryColumns)
+		<if test="${column.attrname} != null and ${column.attrname} !='' ">
+                AND ${column.columnName} = #{$column.attrname}
+            </if>
+		#end
 	</select>
 	 
 	<insert id="save" parameterType="${package}.${moduleName}.entity.${className}Entity"#if($pk.extra == 'auto_increment') useGeneratedKeys="true" keyProperty="$pk.attrname"#end>

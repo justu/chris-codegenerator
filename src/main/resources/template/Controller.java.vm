@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.service.${className}Service;
-import ${mainPath}.common.utils.PageUtils;
-import ${mainPath}.common.utils.Query;
-import ${mainPath}.common.utils.R;
+import ${mainPath}.base.common.utils.PageUtils;
+import ${mainPath}.base.common.utils.Query;
+import ${mainPath}.base.common.utils.CommonResponse;
 
 
 
@@ -38,7 +38,7 @@ public class ${className}Controller {
 	 */
 	@RequestMapping("/list")
 	@RequiresPermissions("${moduleName}:${pathName}:list")
-	public R list(@RequestParam Map<String, Object> params){
+	public CommonResponse list(@RequestParam Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 
@@ -47,7 +47,7 @@ public class ${className}Controller {
 		
 		PageUtils pageUtil = new PageUtils(${classname}List, total, query.getLimit(), query.getPage());
 		
-		return R.ok().put("page", pageUtil);
+		return CommonResponse.ok().put("page", pageUtil);
 	}
 	
 	
@@ -56,10 +56,10 @@ public class ${className}Controller {
 	 */
 	@RequestMapping("/info/{${pk.attrname}}")
 	@RequiresPermissions("${moduleName}:${pathName}:info")
-	public R info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
+	public CommonResponse info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
 		${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
 		
-		return R.ok().put("${classname}", ${classname});
+		return CommonResponse.ok().put("${classname}", ${classname});
 	}
 	
 	/**
@@ -67,10 +67,10 @@ public class ${className}Controller {
 	 */
 	@RequestMapping("/save")
 	@RequiresPermissions("${moduleName}:${pathName}:save")
-	public R save(@RequestBody ${className}Entity ${classname}){
+	public CommonResponse save(@RequestBody ${className}Entity ${classname}){
 		${classname}Service.save(${classname});
 		
-		return R.ok();
+		return CommonResponse.ok();
 	}
 	
 	/**
@@ -78,10 +78,10 @@ public class ${className}Controller {
 	 */
 	@RequestMapping("/update")
 	@RequiresPermissions("${moduleName}:${pathName}:update")
-	public R update(@RequestBody ${className}Entity ${classname}){
+	public CommonResponse update(@RequestBody ${className}Entity ${classname}){
 		${classname}Service.update(${classname});
 		
-		return R.ok();
+		return CommonResponse.ok();
 	}
 	
 	/**
@@ -89,10 +89,10 @@ public class ${className}Controller {
 	 */
 	@RequestMapping("/delete")
 	@RequiresPermissions("${moduleName}:${pathName}:delete")
-	public R delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
+	public CommonResponse delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
 		${classname}Service.deleteBatch(${pk.attrname}s);
 		
-		return R.ok();
+		return CommonResponse.ok();
 	}
 	
 }

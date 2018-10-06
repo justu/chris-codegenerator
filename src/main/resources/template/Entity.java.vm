@@ -1,9 +1,14 @@
 package ${package}.${moduleName}.entity;
 
 import java.io.Serializable;
+#if(${hasTime})
 import java.util.Date;
+#end
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
+#end
+#if(${hasUpdateInfo})
+import com.chris.base.common.model.SysUpdateInfo;
 #end
 
 
@@ -14,24 +19,19 @@ import java.math.BigDecimal;
  * @email ${email}
  * @since ${datetime}
  */
-public class ${className}Entity implements Serializable {
+public class ${className}Entity #if(${hasUpdateInfo}) extends SysUpdateInfo #end implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-#foreach ($column in $columns)
+#foreach ($column in $custColumns)
 	//$column.comments
 	private $column.attrType $column.attrname;
 #end
 
-#foreach ($column in $columns)
-	/**
-	 * 设置：${column.comments}
-	 */
+#foreach ($column in $custColumns)
 	public void set${column.attrName}($column.attrType $column.attrname) {
 		this.$column.attrname = $column.attrname;
 	}
-	/**
-	 * 获取：${column.comments}
-	 */
+
 	public $column.attrType get${column.attrName}() {
 		return $column.attrname;
 	}

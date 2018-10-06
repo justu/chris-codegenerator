@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -43,6 +44,11 @@ public class GenUtils {
         return templates;
     }
 
+    public static List<String> excludeQryColumns() {
+        return Arrays.asList(new String[]{"create_user_id", "create_time", "update_user_id", "update_time"});
+    }
+
+
     /**
      * 生成代码
      */
@@ -56,8 +62,8 @@ public class GenUtils {
         tableEntity.setTableName(table.get("tableName" ));
         tableEntity.setComments(table.get("tableComment" ));
         //表名转换成Java类名
-        String className = tableToJava(tableEntity.getTableName(), config.getString("tablePrefix" ));
-        tableEntity.setClassName(className);
+        String className = tableToJava(tableEntity.getTableName(), getTablePrefix());
+        tableEntity.setClassName(convertClassName(className, "ibms"));
         tableEntity.setClassname(StringUtils.uncapitalize(className));
 
         //列信息
@@ -109,13 +115,23 @@ public class GenUtils {
         map.put("classname", tableEntity.getClassname());
         map.put("pathName", tableEntity.getClassname().toLowerCase());
         map.put("columns", tableEntity.getColumns());
+        map.put("queryColumns", tableEntity.getColumns().stream().filter(column -> {
+            return !excludeQryColumns().contains(column.getColumnName().toLowerCase());
+        }).collect(Collectors.toList()));
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("mainPath", mainPath);
         map.put("package", config.getString("package" ));
-        map.put("moduleName", getModuleName(tableEntity.getTableName()));
+
+        String moduleName = getModuleName(tableEntity.getTableName());
+        map.put("moduleName", moduleName);
         map.put("author", config.getString("author" ));
         map.put("email", config.getString("email" ));
         map.put("datetime", createDateTime());
+
+        boolean hasUpdateInfo = getHasUpdateInfo(tableEntity.getColumns());
+        map.put("hasUpdateInfo", hasUpdateInfo);
+        map.put("custColumns", map.get(hasUpdateInfo ? "queryColumns" : "columns"));
+        map.put("hasTime", getHasTimeValue((List<ColumnEntity>) map.get("custColumns")));
         VelocityContext context = new VelocityContext(map);
 
         //获取模板列表
@@ -128,7 +144,7 @@ public class GenUtils {
 
             try {
                 //添加到zip
-                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package" ), config.getString("moduleName" ))));
+                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package" ), moduleName)));
                 IOUtils.write(sw.toString(), zip, "UTF-8" );
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
@@ -137,13 +153,52 @@ public class GenUtils {
             }
         }
     }
-    
-    private static String getModuleName(String tableName) {
-        return tableName.toLowerCase().startsWith("sys_") ? "sys" : "res";
+
+    private static String convertClassName(String className, String ... keys) {
+        for (int i = 0; i < keys.length; i++) {
+            String key = keys[i];
+            if (className.toLowerCase().startsWith(key)) {
+                return key.toUpperCase() + className.substring(key.length());
+            }
+        }
+        return className;
+    }
+
+    private static boolean getHasTimeValue(List<ColumnEntity> columns) {
+        for (int i = 0; i < columns.size(); i++) {
+            String colName = columns.get(i).getColumnName().toLowerCase();
+            if (colName.indexOf("_date") >= 0 || colName.indexOf("_time") >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String getTablePrefix() {
+        return "t_,sp_";
+    }
+
+    private static boolean getHasUpdateInfo(List<ColumnEntity> columns) {
+        int count = 0;
+        List<String> excludeQryColumns = excludeQryColumns();
+        for (int i = 0; i < columns.size(); i++) {
+            if (excludeQryColumns.contains(columns.get(i).getColumnName().toLowerCase())) {
+                count++;
+            }
+        }
+        return count == excludeQryColumns.size();
     }
 
     private static String getModuleName(String tableName) {
-        return tableName.toLowerCase().startsWith("sys_") ? "sys" : "res";
+        String tbName = tableName.toLowerCase();
+        if (tbName.startsWith("base_")) {
+            return "base";
+        } else if (tbName.startsWith("ibms_")) {
+            return "ibms";
+        } else if (tbName.startsWith("sp_")) {
+            return "busi";
+        }
+        return "sys";
     }
 
     private static String createDateTime() {
@@ -168,7 +223,13 @@ public class GenUtils {
      */
     public static String tableToJava(String tableName, String tablePrefix) {
         if (StringUtils.isNotBlank(tablePrefix)) {
-            tableName = tableName.replace(tablePrefix, "" );
+            String [] prefixs = tablePrefix.split(",");
+            for (int i = 0; i < prefixs.length; i++) {
+                if (tableName.toLowerCase().startsWith(prefixs[i])) {
+                    tableName = tableName.replace(prefixs[i], "" );
+                    break;
+                }
+            }
         }
         return columnToJava(tableName);
     }

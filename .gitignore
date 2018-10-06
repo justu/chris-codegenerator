@@ -1,0 +1,8 @@
+#当前工程
+target/
+logs
+*.iml
+.idea/
+.settings
+.classpath
+.project
