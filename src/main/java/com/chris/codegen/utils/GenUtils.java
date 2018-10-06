@@ -167,7 +167,7 @@ public class GenUtils {
     private static boolean getHasTimeValue(List<ColumnEntity> columns) {
         for (int i = 0; i < columns.size(); i++) {
             String colName = columns.get(i).getColumnName().toLowerCase();
-            if (colName.indexOf("_date") >= 0 || colName.indexOf("_time") >= 0) {
+            if (colName.indexOf("_date") >= 0 || colName.indexOf("_time") >= 0 || colName.indexOf("birthday") >= 0) {
                 return true;
             }
         }
