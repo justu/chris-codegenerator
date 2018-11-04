@@ -1,15 +1,15 @@
-package ${package}.${moduleName}.controller;
+package
+
+import org.springframework.web.bind.annotation.*;${package}.${moduleName}.controller;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.service.${className}Service;
@@ -36,9 +36,9 @@ public class ${className}Controller {
 	/**
 	 * 列表
 	 */
-	@RequestMapping("/list")
+	@PostMapping("/list")
 	@RequiresPermissions("${moduleName}:${pathName}:list")
-	public CommonResponse list(@RequestParam Map<String, Object> params){
+	public CommonResponse list(@RequestBody Map<String, Object> params){
 		//查询列表数据
         Query query = new Query(params);
 
@@ -54,7 +54,7 @@ public class ${className}Controller {
 	/**
 	 * 信息
 	 */
-	@RequestMapping("/info/{${pk.attrname}}")
+	@GetMapping("/info/{${pk.attrname}}")
 	@RequiresPermissions("${moduleName}:${pathName}:info")
 	public CommonResponse info(@PathVariable("${pk.attrname}") ${pk.attrType} ${pk.attrname}){
 		${className}Entity ${classname} = ${classname}Service.queryObject(${pk.attrname});
@@ -65,7 +65,7 @@ public class ${className}Controller {
 	/**
 	 * 保存
 	 */
-	@RequestMapping("/save")
+	@PostMapping("/save")
 	@RequiresPermissions("${moduleName}:${pathName}:save")
 	public CommonResponse save(@RequestBody ${className}Entity ${classname}){
 		${classname}Service.save(${classname});
@@ -76,7 +76,7 @@ public class ${className}Controller {
 	/**
 	 * 修改
 	 */
-	@RequestMapping("/update")
+	@PostMapping("/update")
 	@RequiresPermissions("${moduleName}:${pathName}:update")
 	public CommonResponse update(@RequestBody ${className}Entity ${classname}){
 		${classname}Service.update(${classname});
@@ -87,7 +87,7 @@ public class ${className}Controller {
 	/**
 	 * 删除
 	 */
-	@RequestMapping("/delete")
+	@PostMapping("/delete")
 	@RequiresPermissions("${moduleName}:${pathName}:delete")
 	public CommonResponse delete(@RequestBody ${pk.attrType}[] ${pk.attrname}s){
 		${classname}Service.deleteBatch(${pk.attrname}s);
