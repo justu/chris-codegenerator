@@ -3,7 +3,7 @@ server:
     tomcat:
         max-threads: 10
         min-spare-threads: 10
-    port: 80
+    port: 8099
     context-path: /code
 # mysql
 spring:
