@@ -1,7 +1,7 @@
 package ${package}.${moduleName}.dao;
 
 import ${package}.${moduleName}.entity.${className}Entity;
-import ${mainPath}.base.modules.sys.dao.BaseDao;
+import com.chisondo.server.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

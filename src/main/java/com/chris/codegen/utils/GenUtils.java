@@ -178,7 +178,7 @@ public class GenUtils {
     }
 
     private static String getTablePrefix() {
-        return "t_,sp_,tb_";
+        return "t_,sp_,tb_,t_app";
     }
 
     private static boolean getHasUpdateInfo(List<ColumnEntity> columns) {
@@ -202,7 +202,7 @@ public class GenUtils {
             return "busi";
         } else if (tbName.startsWith("tb_dev") || tbName.equals("tb_actived_device_info")) {
             return "devctrl";
-        } else if (tbName.startsWith("tb_tea")) {
+        } else if (tbName.startsWith("tb_tea") || tbName.startsWith("t_app_tea") || tbName.startsWith("t_app_chapu")) {
             return "tea";
         } else if (tbName.startsWith("tb_user") || tbName.equals("t_teaman_admin_user")) {
             return "user";
