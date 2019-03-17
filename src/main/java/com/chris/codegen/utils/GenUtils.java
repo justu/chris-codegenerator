@@ -201,10 +201,10 @@ public class GenUtils {
         } else if (tbName.startsWith("sp_")) {
             return "busi";
         } else if (tbName.startsWith("tb_dev") || tbName.equals("tb_actived_device_info")) {
-            return "devctrl";
+            return "device";
         } else if (tbName.startsWith("tb_tea") || tbName.startsWith("t_app_tea") || tbName.startsWith("t_app_chapu")) {
             return "tea";
-        } else if (tbName.startsWith("tb_user") || tbName.equals("t_teaman_admin_user")) {
+        } else if (tbName.startsWith("tb_user") || tbName.equals("t_teaman_admin_user") || tbName.equals("t_data_vip")) {
             return "user";
         }
         return "sys";
