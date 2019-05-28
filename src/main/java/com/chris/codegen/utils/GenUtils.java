@@ -194,7 +194,7 @@ public class GenUtils {
 
     private static String getModuleName(String tableName) {
         String tbName = tableName.toLowerCase();
-        if (tbName.startsWith("base_")) {
+        if (tbName.startsWith("base_") || tbName.equals("tb_user")) {
             return "base";
         } else if (tbName.startsWith("ibms_")) {
             return "ibms";
